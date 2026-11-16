@@ -10,9 +10,8 @@ ENV HF_HOME=/app/.cache/huggingface
 
 FROM base AS build
 
-# Compilers for packages with native extensions. git and git-lfs install LiveKit Agents from
-# GitHub until the AssemblyAI TTS plugin is on PyPI (see pyproject.toml).
-RUN apt-get update && apt-get install -y gcc g++ python3-dev git git-lfs \
+# Compilers for packages with native extensions
+RUN apt-get update && apt-get install -y gcc g++ python3-dev \
   && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app

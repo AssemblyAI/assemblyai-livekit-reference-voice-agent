@@ -1,7 +1,7 @@
 """A voice agent starter where every model is AssemblyAI's, on one API key.
 
 - Text-to-speech: AssemblyAI streaming TTS, with word-level timings
-- Speech-to-text: Universal-3.6 Pro streaming, which also decides when the user has finished
+- Speech-to-text: STT 3.7 Realtime Agent streaming, which also decides when the user has finished
   their turn
 - LLM: LLM Gateway, an OpenAI-compatible API for models from Google, OpenAI, Anthropic and more
 
@@ -146,7 +146,7 @@ async def entrypoint(ctx: JobContext) -> None:
 
     session = AgentSession(
         stt=assemblyai.STT(
-            model="universal-3-6-pro",
+            model="assemblyai-stt-3-7-realtime-agent",
             mode=STT_MODE,
             vad_threshold=VAD_THRESHOLD,
             keyterms_prompt=STT_KEYTERMS,
@@ -160,7 +160,7 @@ async def entrypoint(ctx: JobContext) -> None:
         tts=tts,
         vad=ctx.proc.userdata["vad"],
         turn_handling=TurnHandlingOptions(
-            # Universal-3.6 Pro decides when the user has finished speaking...
+            # STT 3.7 Realtime Agent decides when the user has finished speaking...
             turn_detection="stt",
             # ...so LiveKit shouldn't add its own delay on top
             endpointing={"min_delay": 0},

@@ -1,6 +1,6 @@
 # AGENTS.md
 
-A LiveKit Agents (Python) voice agent starter where every model is AssemblyAI's: streaming text-to-speech, Universal-3.6 Pro streaming speech-to-text, and an LLM on the LLM Gateway, on one API key. The agent is a general assistant that tells the time; it's a template to build the user's own agent from. See @README.md for setup.
+A LiveKit Agents (Python) voice agent starter where every model is AssemblyAI's: streaming text-to-speech, STT 3.7 Realtime Agent streaming speech-to-text, and an LLM on the LLM Gateway, on one API key. The agent is a general assistant that tells the time; it's a template to build the user's own agent from. See @README.md for setup.
 
 ## Building an agent from this starter
 
@@ -41,7 +41,7 @@ Change one block at a time, run the tests, and have the user try it with `lk age
 
 ## Tooling
 
-- Install with `uv sync`. LiveKit Agents and its plugins come from a fork, pinned in `[tool.uv.sources]` in `pyproject.toml`, until the AssemblyAI TTS plugin is released (livekit/agents#8040). Bump `rev` in all four entries together. The `lfs` option needs a recent uv.
+- Install with `uv sync`. LiveKit Agents and its plugins come from PyPI; keep the four on the same version.
 - Format and lint with `uv run ruff format` and `uv run ruff check`.
 - Test with `uv run pytest`. The agent tests need `ASSEMBLYAI_API_KEY` in `.env.local` and are skipped without it.
 - Try changes with `lk agent console --text` (type) or `lk agent console` (talk). Both need only the AssemblyAI key.
@@ -56,11 +56,11 @@ Change one block at a time, run the tests, and have the user try it with `lk age
 ## AssemblyAI specifics
 
 - The LLM Gateway is OpenAI-compatible: `openai.LLM(base_url="https://llm-gateway.assemblyai.com/v1", api_key=ASSEMBLYAI_API_KEY)`. Model IDs have no provider prefix (`gemma-4-31b`). The EU Gateway serves a subset, and not `gemma-4-31b`.
-- Turn detection is Universal-3.6 Pro's own (`turn_detection="stt"`), so LiveKit's `endpointing.min_delay` stays `0`. Tune turn-taking with the STT's `mode`, `min_turn_silence` and `max_turn_silence`. Without `mode`, the plugin defaults both to 100 ms, which is too eager for STT turn detection.
+- Turn detection is STT 3.7 Realtime Agent's own (`turn_detection="stt"`), so LiveKit's `endpointing.min_delay` stays `0`. Tune turn-taking with the STT's `mode`, `min_turn_silence` and `max_turn_silence`. Without `mode`, the plugin defaults both to 100 ms, which is too eager for STT turn detection.
 - The STT's `vad_threshold` and Silero's `activation_threshold` are both `VAD_THRESHOLD`. Keep them equal.
 - `mode`, `voice_focus`, `voice_focus_threshold` and `domain` are fixed when the STT connects. `min_turn_silence`, `max_turn_silence`, `keyterms_prompt`, `prompt`, `language_codes` and `vad_threshold` can change mid-call with `stt.update_options(...)`.
 - TTS `language` takes a name (`spanish`) on the raw API; the plugin also accepts codes (`es`). Only the eleven featured `aai-*` voices speak all six TTS languages.
-- AssemblyAI docs: https://www.assemblyai.com/docs, with an index for agents at https://www.assemblyai.com/docs/llms.txt. Universal-3.6 Pro with LiveKit: https://www.assemblyai.com/docs/voice-agents/livekit-universal-3-6-pro
+- AssemblyAI docs: https://www.assemblyai.com/docs, with an index for agents at https://www.assemblyai.com/docs/llms.txt. LiveKit guide (written for Universal-3.6 Pro; the settings carry over, except that `interruption_delay` now defaults to 0 in every mode): https://www.assemblyai.com/docs/voice-agents/livekit-universal-3-6-pro
 
 ## LiveKit documentation
 

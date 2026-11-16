@@ -1,6 +1,6 @@
 ---
 name: languages
-description: Make the agent understand and speak languages other than English (Spanish, German, French, Italian, Portuguese and more), or several at once, by setting Universal-3.6 Pro's language_codes, the TTS language and voice, and the instructions together. Use when users will speak a language other than English, switch between languages, or when the agent should reply in another language.
+description: Make the agent understand and speak languages other than English (Spanish, German, French, Italian, Portuguese and more), or several at once, by setting STT 3.7 Realtime Agent's language_codes, the TTS language and voice, and the instructions together. Use when users will speak a language other than English, switch between languages, or when the agent should reply in another language.
 ---
 
 # Languages
@@ -14,7 +14,7 @@ Three parts of the agent each need to know the language. Change them together in
 
 ## 1. Speech-to-text
 
-Universal-3.6 Pro recognizes many languages and switches between them on its own, with no settings. When you know which to expect, steer it toward them for better accuracy on short or ambiguous answers:
+STT 3.7 Realtime Agent recognizes many languages and switches between them on its own, with no settings. When you know which to expect, steer it toward them for better accuracy on short or ambiguous answers:
 
 ```python
 assemblyai.STT(
@@ -46,7 +46,7 @@ With a single-language library or cloned voice, leave `language` out: the voice'
 
 ## Mixed-language calls
 
-Universal-3.6 Pro follows a user who switches languages mid-call. The TTS speaks one language per connection, so for an agent that replies in the user's language, prefer a featured voice and tell the user that the reply language is fixed per call unless they want to build switching.
+STT 3.7 Realtime Agent follows a user who switches languages mid-call. The TTS speaks one language per connection, so for an agent that replies in the user's language, prefer a featured voice and tell the user that the reply language is fixed per call unless they want to build switching.
 
 ## Check it
 

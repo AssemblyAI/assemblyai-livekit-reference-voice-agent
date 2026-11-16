@@ -5,7 +5,7 @@ A voice agent template for [LiveKit Agents](https://github.com/livekit/agents) w
 | | AssemblyAI model | |
 |---|---|---|
 | **Voice** | [Streaming text-to-speech](https://www.assemblyai.com/docs/tts/getting-started/quickstart) | 4,000+ voices in six languages, or your own cloned voice. Word timings mean an interrupted reply is remembered only up to the words the user heard. |
-| **Ears** | [Universal-3.6 Pro](https://www.assemblyai.com/docs/voice-agents/livekit-universal-3-6-pro) | Streaming speech-to-text that also decides when the user has finished talking, and holds the turn open while they read out a number or an email. |
+| **Ears** | [STT 3.7 Realtime Agent](https://www.assemblyai.com/docs/streaming/select-the-speech-model) | Streaming speech-to-text that also decides when the user has finished talking, and holds the turn open while they read out a number or an email. |
 | **Brain** | [LLM Gateway](https://www.assemblyai.com/docs/llm-gateway/quickstart) | 50 models from Google, OpenAI, Anthropic and others, with tool calling, behind one OpenAI-compatible API. |
 
 Using Pipecat? See [assemblyai-pipecat-reference-voice-agent](https://github.com/dan-ince-aai/assemblyai-pipecat-reference-voice-agent).
@@ -14,7 +14,7 @@ Using Pipecat? See [assemblyai-pipecat-reference-voice-agent](https://github.com
 
 ### 1. Install
 
-You need [uv](https://docs.astral.sh/uv/getting-started/installation/), [Git LFS](https://git-lfs.com), the [LiveKit CLI](https://docs.livekit.io/intro/basics/cli/) (`brew install livekit-cli`) and an [AssemblyAI API key](https://www.assemblyai.com/dashboard/api-keys).
+You need [uv](https://docs.astral.sh/uv/getting-started/installation/), the [LiveKit CLI](https://docs.livekit.io/intro/basics/cli/) (`brew install livekit-cli`) and an [AssemblyAI API key](https://www.assemblyai.com/dashboard/api-keys).
 
 ```console
 git clone https://github.com/AssemblyAI/assemblyai-livekit-reference-voice-agent.git
@@ -75,9 +75,9 @@ Open the repo in Claude Code, Cursor or Codex and describe the agent you want. [
 ## How it works
 
 ```
-user ──▶ Universal-3.6 Pro ──▶ LLM Gateway ──▶ AssemblyAI TTS ──▶ user
-         speech-to-text,        reply and        word-timed
-         end of turn            tool calls       speech
+user ──▶ STT 3.7 Realtime Agent ──▶ LLM Gateway ──▶ AssemblyAI TTS ──▶ user
+         speech-to-text,             reply and        word-timed
+         end of turn                 tool calls       speech
 ```
 
 The whole agent is [`src/agent.py`](src/agent.py). [`src/README.md`](src/README.md) explains each default.

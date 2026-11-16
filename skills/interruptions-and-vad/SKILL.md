@@ -1,17 +1,17 @@
 ---
 name: interruptions-and-vad
-description: Tune what counts as speech (the VAD threshold, shared by Universal-3.6 Pro and Silero) and how the agent handles being interrupted (barge-in). Use when setting up an agent for a noisy or quiet environment, when background noise, TV, other people or echo make the agent stop talking or hear things, when quiet speakers aren't heard, when interruptions feel slow or too eager, or when some messages must not be interrupted.
+description: Tune what counts as speech (the VAD threshold, shared by STT 3.7 Realtime Agent and Silero) and how the agent handles being interrupted (barge-in). Use when setting up an agent for a noisy or quiet environment, when background noise, TV, other people or echo make the agent stop talking or hear things, when quiet speakers aren't heard, when interruptions feel slow or too eager, or when some messages must not be interrupted.
 ---
 
 # Interruptions and VAD
 
-Two things decide when the user is speaking: Universal-3.6 Pro's own voice activity detection (`vad_threshold`) and Silero's in LiveKit (`activation_threshold`), which makes interruptions fast. They should agree, so both come from one setting in `src/agent.py`:
+Two things decide when the user is speaking: STT 3.7 Realtime Agent's own voice activity detection (`vad_threshold`) and Silero's in LiveKit (`activation_threshold`), which makes interruptions fast. They should agree, so both come from one setting in `src/agent.py`:
 
 ```python
 VAD_THRESHOLD = 0.2  # used for assemblyai.STT(vad_threshold=...) and silero.VAD.load(activation_threshold=...)
 ```
 
-`0.2` is Universal-3.6 Pro's default in every mode. Always change the two together: if they differ, one hears speech the other doesn't, and interruptions lag.
+`0.2` is STT 3.7 Realtime Agent's default in every mode. Always change the two together: if they differ, one hears speech the other doesn't, and interruptions lag.
 
 ## Ask
 
@@ -27,7 +27,7 @@ VAD_THRESHOLD = 0.2  # used for assemblyai.STT(vad_threshold=...) and silero.VAD
 | Background noise or chatter makes the agent stop mid-reply, or hear words nobody said | Turn on the [voice-focus skill](../voice-focus/SKILL.md) first. If it still happens, raise `VAD_THRESHOLD` to `0.3`, then `0.4`. |
 | Quiet or distant speakers aren't heard | Lower `VAD_THRESHOLD` to `0.15`. |
 | Coughs or "uh-huh"s cut the agent off | Keep `resume_false_interruption` on (it is), and raise `min_duration` (below). |
-| Interruptions feel slow | Lower `interruption_delay` (below). |
+| Interruptions feel slow | Lower `min_duration` (below). The STT's `interruption_delay` is already `0`. |
 
 Higher thresholds miss soft speech; lower ones react to noise. Move in steps of about 0.1 and test with real audio from the target environment.
 
@@ -45,7 +45,7 @@ In `TurnHandlingOptions(interruption={...})`:
 
 On LiveKit Cloud and in `lk agent dev`, LiveKit's [adaptive interruption handling](https://docs.livekit.io/agents/logic/turns/adaptive-interruption-handling/) also tells real interruptions from backchannels; console mode doesn't have it.
 
-`interruption_delay` on `assemblyai.STT(...)` sets how soon the first partial transcript arrives (0 to 1000 ms; the server adds 256 ms). `"balanced"` uses 500. Lower it (`0`) for faster barge-in; raise it for more confident first partials in noise.
+`interruption_delay` on `assemblyai.STT(...)` sets how soon the first partial transcript arrives (0 to 1000 ms; the server adds 256 ms). STT 3.7 Realtime Agent uses `0` in every mode, for the fastest barge-in; raise it (to `500`, say) for more confident first partials in noise.
 
 For a message that must be heard in full, such as a legal disclosure: `self.session.say(text, allow_interruptions=False)`.
 
